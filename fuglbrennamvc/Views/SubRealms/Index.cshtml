@@ -12,34 +12,34 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.SubRealmName)
+            Realm
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SubRealmState)
+            Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SubRealmCity)
+            State
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SubRealmAddress)
+            City
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Location)
+            Address
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PracticeDay)
+            Location
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PracticeTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Realm.RealmName)
+            Practice
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Realm.RealmName)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.SubRealmName)
         </td>
@@ -56,18 +56,13 @@
             @Html.DisplayFor(modelItem => item.Location)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PracticeDay)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PracticeTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Realm.RealmName)
+            @Html.DisplayFor(modelItem => item.PracticeDay), @Html.DisplayFor(modelItem => item.PracticeTime)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.SubRealmId }) |
             @Html.ActionLink("Details", "Details", new { id=item.SubRealmId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SubRealmId })
+            @Html.ActionLink("Delete", "Delete", new { id=item.SubRealmId }) |
+            @Html.ActionLink("Add Event", "Create", "Events", new { id = item.SubRealmId }, null)
         </td>
     </tr>
 }
