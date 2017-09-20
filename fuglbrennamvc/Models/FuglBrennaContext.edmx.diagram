@@ -5,21 +5,25 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="10e6c659970c4380b2ae3348a034c09f" Name="Diagram1">
-        <EntityTypeShape EntityType="FuglBrennaModel.Attendance" Width="1.5" PointX="8.125" PointY="3.625" />
-        <EntityTypeShape EntityType="FuglBrennaModel.Event" Width="1.5" PointX="4.875" PointY="1.25" />
-        <EntityTypeShape EntityType="FuglBrennaModel.EventType" Width="1.5" PointX="8.25" PointY="1" />
-        <EntityTypeShape EntityType="FuglBrennaModel.Member" Width="1.5" PointX="5.25" PointY="3.75" />
-        <EntityTypeShape EntityType="FuglBrennaModel.Realm" Width="1.5" PointX="0.5" PointY="1.25" />
-        <EntityTypeShape EntityType="FuglBrennaModel.SubRealm" Width="1.5" PointX="2.5" PointY="1.125" />
-        <EntityTypeShape EntityType="FuglBrennaModel.Unit" Width="1.5" PointX="8.25" PointY="6.5" />
+        <EntityTypeShape EntityType="FuglBrennaModel.Attendance" Width="1.5" PointX="10.75" PointY="3.875" />
+        <EntityTypeShape EntityType="FuglBrennaModel.Event" Width="1.5" PointX="10.75" PointY="6.625" />
+        <EntityTypeShape EntityType="FuglBrennaModel.EventType" Width="1.5" PointX="10.75" PointY="9.5" />
+        <EntityTypeShape EntityType="FuglBrennaModel.MemberLogin" Width="1.5" PointX="5.75" PointY="8.125" />
+        <EntityTypeShape EntityType="FuglBrennaModel.Member" Width="1.5" PointX="5.625" PointY="3.75" />
+        <EntityTypeShape EntityType="FuglBrennaModel.Realm" Width="1.5" PointX="1.125" PointY="4.5" />
+        <EntityTypeShape EntityType="FuglBrennaModel.Role" Width="1.5" PointX="3.25" PointY="8.25" />
+        <EntityTypeShape EntityType="FuglBrennaModel.SubRealm" Width="1.5" PointX="3.375" PointY="3.75" />
+        <EntityTypeShape EntityType="FuglBrennaModel.Unit" Width="1.5" PointX="8.125" PointY="5.125" />
         <AssociationConnector Association="FuglBrennaModel.FK__Attendanc__Event__1BFD2C07" />
         <AssociationConnector Association="FuglBrennaModel.FK__Attendanc__Membe__1B0907CE" />
         <AssociationConnector Association="FuglBrennaModel.FK__Event__EventType__1DE57479" />
         <AssociationConnector Association="FuglBrennaModel.FK__Event__SubRealmI__1CF15040" />
+        <AssociationConnector Association="FuglBrennaModel.FK__MemberLog__Membe__4BAC3F29" />
         <AssociationConnector Association="FuglBrennaModel.FK__Member__SubRealm__1FCDBCEB" />
         <AssociationConnector Association="FuglBrennaModel.FK__Member__UnitId__1ED998B2" />
         <AssociationConnector Association="FuglBrennaModel.FK__Unit__LeaderId__21B6055D" />
         <AssociationConnector Association="FuglBrennaModel.FK__SubRealm__RealmI__20C1E124" />
+        <AssociationConnector Association="FuglBrennaModel.MemberRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

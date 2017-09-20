@@ -236,6 +236,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.5\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -332,7 +335,13 @@
     <Compile Include="Models\Member.cs">
       <DependentUpon>FuglBrennaContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MemberLogin.cs">
+      <DependentUpon>FuglBrennaContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Realm.cs">
+      <DependentUpon>FuglBrennaContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Role.cs">
       <DependentUpon>FuglBrennaContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SubRealm.cs">

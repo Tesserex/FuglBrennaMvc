@@ -18,6 +18,7 @@ namespace FuglBrennaMvc.Models
         public Member()
         {
             this.Attendances = new HashSet<Attendance>();
+            this.MemberLogins = new HashSet<MemberLogin>();
             this.Units = new HashSet<Unit>();
         }
     
@@ -31,6 +32,8 @@ namespace FuglBrennaMvc.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Attendance> Attendances { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MemberLogin> MemberLogins { get; set; }
         public virtual SubRealm SubRealm { get; set; }
         public virtual Unit Unit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

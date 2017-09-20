@@ -28,8 +28,10 @@ namespace FuglBrennaMvc.Models
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<EventType> EventTypes { get; set; }
+        public virtual DbSet<MemberLogin> MemberLogins { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Realm> Realms { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<SubRealm> SubRealms { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
     }
