@@ -1,0 +1,542 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FuglBrennaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="AttendanceId" />
+          </Key>
+          <Property Name="AttendanceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="EventId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubRealmId" Type="int" />
+          <Property Name="EventTypeId" Type="int" Nullable="false" />
+          <Property Name="EventDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventType">
+          <Key>
+            <PropertyRef Name="EventTypeId" />
+          </Key>
+          <Property Name="EventTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="MemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastName" Type="nchar" MaxLength="30" />
+          <Property Name="FirstName" Type="nchar" MaxLength="30" />
+          <Property Name="BattleName" Type="nchar" MaxLength="30" />
+          <Property Name="DoB" Type="date" />
+          <Property Name="UnitId" Type="int" />
+          <Property Name="SubRealmId" Type="int" />
+        </EntityType>
+        <EntityType Name="Realm">
+          <Key>
+            <PropertyRef Name="RealmId" />
+          </Key>
+          <Property Name="RealmId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RealmName" Type="nchar" MaxLength="30" />
+          <Property Name="RealmState" Type="nchar" MaxLength="30" />
+          <Property Name="RealmCity" Type="nchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="SubRealm">
+          <Key>
+            <PropertyRef Name="SubRealmId" />
+          </Key>
+          <Property Name="SubRealmId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubRealmName" Type="nchar" MaxLength="30" />
+          <Property Name="SubRealmState" Type="nchar" MaxLength="30" />
+          <Property Name="SubRealmCity" Type="nchar" MaxLength="30" />
+          <Property Name="SubRealmAddress" Type="nchar" MaxLength="100" />
+          <Property Name="Location" Type="nchar" MaxLength="30" />
+          <Property Name="PracticeDay" Type="nchar" MaxLength="10" />
+          <Property Name="PracticeTime" Type="nchar" MaxLength="10" />
+          <Property Name="RealmId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="UnitId" />
+          </Key>
+          <Property Name="UnitId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnitName" Type="nchar" MaxLength="30" />
+          <Property Name="Description" Type="nchar" MaxLength="1000" />
+          <Property Name="LeaderId" Type="int" />
+        </EntityType>
+        <Association Name="FK__Attendanc__Event__1BFD2C07">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Attendanc__Membe__1B0907CE">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Event__EventType__1DE57479">
+          <End Role="EventType" Type="Self.EventType" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventType">
+              <PropertyRef Name="EventTypeId" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="EventTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Event__SubRealmI__1CF15040">
+          <End Role="SubRealm" Type="Self.SubRealm" Multiplicity="0..1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubRealm">
+              <PropertyRef Name="SubRealmId" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="SubRealmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Member__SubRealm__1FCDBCEB">
+          <End Role="SubRealm" Type="Self.SubRealm" Multiplicity="0..1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubRealm">
+              <PropertyRef Name="SubRealmId" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="SubRealmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Member__UnitId__1ED998B2">
+          <End Role="Unit" Type="Self.Unit" Multiplicity="0..1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="UnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SubRealm__RealmI__20C1E124">
+          <End Role="Realm" Type="Self.Realm" Multiplicity="1" />
+          <End Role="SubRealm" Type="Self.SubRealm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Realm">
+              <PropertyRef Name="RealmId" />
+            </Principal>
+            <Dependent Role="SubRealm">
+              <PropertyRef Name="RealmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Unit__LeaderId__21B6055D">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Unit" Type="Self.Unit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Unit">
+              <PropertyRef Name="LeaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FuglBrennaModelStoreContainer">
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventType" EntityType="Self.EventType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Realm" EntityType="Self.Realm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubRealm" EntityType="Self.SubRealm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Unit" EntityType="Self.Unit" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Attendanc__Event__1BFD2C07" Association="Self.FK__Attendanc__Event__1BFD2C07">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Attendanc__Membe__1B0907CE" Association="Self.FK__Attendanc__Membe__1B0907CE">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Event__EventType__1DE57479" Association="Self.FK__Event__EventType__1DE57479">
+            <End Role="EventType" EntitySet="EventType" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Event__SubRealmI__1CF15040" Association="Self.FK__Event__SubRealmI__1CF15040">
+            <End Role="SubRealm" EntitySet="SubRealm" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Member__SubRealm__1FCDBCEB" Association="Self.FK__Member__SubRealm__1FCDBCEB">
+            <End Role="SubRealm" EntitySet="SubRealm" />
+            <End Role="Member" EntitySet="Member" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Member__UnitId__1ED998B2" Association="Self.FK__Member__UnitId__1ED998B2">
+            <End Role="Unit" EntitySet="Unit" />
+            <End Role="Member" EntitySet="Member" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SubRealm__RealmI__20C1E124" Association="Self.FK__SubRealm__RealmI__20C1E124">
+            <End Role="Realm" EntitySet="Realm" />
+            <End Role="SubRealm" EntitySet="SubRealm" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Unit__LeaderId__21B6055D" Association="Self.FK__Unit__LeaderId__21B6055D">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Unit" EntitySet="Unit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FuglBrennaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="FuglBrennaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attendances" EntityType="FuglBrennaModel.Attendance" />
+          <EntitySet Name="Events" EntityType="FuglBrennaModel.Event" />
+          <EntitySet Name="EventTypes" EntityType="FuglBrennaModel.EventType" />
+          <EntitySet Name="Members" EntityType="FuglBrennaModel.Member" />
+          <EntitySet Name="Realms" EntityType="FuglBrennaModel.Realm" />
+          <EntitySet Name="SubRealms" EntityType="FuglBrennaModel.SubRealm" />
+          <EntitySet Name="Units" EntityType="FuglBrennaModel.Unit" />
+          <AssociationSet Name="FK__Attendanc__Event__1BFD2C07" Association="FuglBrennaModel.FK__Attendanc__Event__1BFD2C07">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="Attendance" EntitySet="Attendances" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Attendanc__Membe__1B0907CE" Association="FuglBrennaModel.FK__Attendanc__Membe__1B0907CE">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Attendance" EntitySet="Attendances" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Event__EventType__1DE57479" Association="FuglBrennaModel.FK__Event__EventType__1DE57479">
+            <End Role="EventType" EntitySet="EventTypes" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Event__SubRealmI__1CF15040" Association="FuglBrennaModel.FK__Event__SubRealmI__1CF15040">
+            <End Role="SubRealm" EntitySet="SubRealms" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Member__SubRealm__1FCDBCEB" Association="FuglBrennaModel.FK__Member__SubRealm__1FCDBCEB">
+            <End Role="SubRealm" EntitySet="SubRealms" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Member__UnitId__1ED998B2" Association="FuglBrennaModel.FK__Member__UnitId__1ED998B2">
+            <End Role="Unit" EntitySet="Units" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Unit__LeaderId__21B6055D" Association="FuglBrennaModel.FK__Unit__LeaderId__21B6055D">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Unit" EntitySet="Units" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SubRealm__RealmI__20C1E124" Association="FuglBrennaModel.FK__SubRealm__RealmI__20C1E124">
+            <End Role="Realm" EntitySet="Realms" />
+            <End Role="SubRealm" EntitySet="SubRealms" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="AttendanceId" />
+          </Key>
+          <Property Name="AttendanceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Event" Relationship="FuglBrennaModel.FK__Attendanc__Event__1BFD2C07" FromRole="Attendance" ToRole="Event" />
+          <NavigationProperty Name="Member" Relationship="FuglBrennaModel.FK__Attendanc__Membe__1B0907CE" FromRole="Attendance" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubRealmId" Type="Int32" />
+          <Property Name="EventTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Attendances" Relationship="FuglBrennaModel.FK__Attendanc__Event__1BFD2C07" FromRole="Event" ToRole="Attendance" />
+          <NavigationProperty Name="EventType" Relationship="FuglBrennaModel.FK__Event__EventType__1DE57479" FromRole="Event" ToRole="EventType" />
+          <NavigationProperty Name="SubRealm" Relationship="FuglBrennaModel.FK__Event__SubRealmI__1CF15040" FromRole="Event" ToRole="SubRealm" />
+          <Property Name="EventDate" Type="DateTime" Nullable="false" Precision="7" />
+        </EntityType>
+        <EntityType Name="EventType">
+          <Key>
+            <PropertyRef Name="EventTypeId" />
+          </Key>
+          <Property Name="EventTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Events" Relationship="FuglBrennaModel.FK__Event__EventType__1DE57479" FromRole="EventType" ToRole="Event" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="MemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="BattleName" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="DoB" Type="DateTime" Precision="0" />
+          <Property Name="UnitId" Type="Int32" />
+          <Property Name="SubRealmId" Type="Int32" />
+          <NavigationProperty Name="Attendances" Relationship="FuglBrennaModel.FK__Attendanc__Membe__1B0907CE" FromRole="Member" ToRole="Attendance" />
+          <NavigationProperty Name="SubRealm" Relationship="FuglBrennaModel.FK__Member__SubRealm__1FCDBCEB" FromRole="Member" ToRole="SubRealm" />
+          <NavigationProperty Name="Unit" Relationship="FuglBrennaModel.FK__Member__UnitId__1ED998B2" FromRole="Member" ToRole="Unit" />
+          <NavigationProperty Name="Units" Relationship="FuglBrennaModel.FK__Unit__LeaderId__21B6055D" FromRole="Member" ToRole="Unit" />
+        </EntityType>
+        <EntityType Name="Realm">
+          <Key>
+            <PropertyRef Name="RealmId" />
+          </Key>
+          <Property Name="RealmId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RealmName" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="RealmState" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="RealmCity" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="SubRealms" Relationship="FuglBrennaModel.FK__SubRealm__RealmI__20C1E124" FromRole="Realm" ToRole="SubRealm" />
+        </EntityType>
+        <EntityType Name="SubRealm">
+          <Key>
+            <PropertyRef Name="SubRealmId" />
+          </Key>
+          <Property Name="SubRealmId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubRealmName" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="SubRealmState" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="SubRealmCity" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="SubRealmAddress" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="PracticeDay" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="PracticeTime" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="RealmId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Events" Relationship="FuglBrennaModel.FK__Event__SubRealmI__1CF15040" FromRole="SubRealm" ToRole="Event" />
+          <NavigationProperty Name="Members" Relationship="FuglBrennaModel.FK__Member__SubRealm__1FCDBCEB" FromRole="SubRealm" ToRole="Member" />
+          <NavigationProperty Name="Realm" Relationship="FuglBrennaModel.FK__SubRealm__RealmI__20C1E124" FromRole="SubRealm" ToRole="Realm" />
+        </EntityType>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="UnitId" />
+          </Key>
+          <Property Name="UnitId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnitName" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="true" Unicode="true" />
+          <Property Name="LeaderId" Type="Int32" />
+          <NavigationProperty Name="Members" Relationship="FuglBrennaModel.FK__Member__UnitId__1ED998B2" FromRole="Unit" ToRole="Member" />
+          <NavigationProperty Name="Member" Relationship="FuglBrennaModel.FK__Unit__LeaderId__21B6055D" FromRole="Unit" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK__Attendanc__Event__1BFD2C07">
+          <End Type="FuglBrennaModel.Event" Role="Event" Multiplicity="1" />
+          <End Type="FuglBrennaModel.Attendance" Role="Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Attendanc__Membe__1B0907CE">
+          <End Type="FuglBrennaModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="FuglBrennaModel.Attendance" Role="Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Event__EventType__1DE57479">
+          <End Type="FuglBrennaModel.EventType" Role="EventType" Multiplicity="1" />
+          <End Type="FuglBrennaModel.Event" Role="Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventType">
+              <PropertyRef Name="EventTypeId" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="EventTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Event__SubRealmI__1CF15040">
+          <End Type="FuglBrennaModel.SubRealm" Role="SubRealm" Multiplicity="0..1" />
+          <End Type="FuglBrennaModel.Event" Role="Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubRealm">
+              <PropertyRef Name="SubRealmId" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="SubRealmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Member__SubRealm__1FCDBCEB">
+          <End Type="FuglBrennaModel.SubRealm" Role="SubRealm" Multiplicity="0..1" />
+          <End Type="FuglBrennaModel.Member" Role="Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubRealm">
+              <PropertyRef Name="SubRealmId" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="SubRealmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Member__UnitId__1ED998B2">
+          <End Type="FuglBrennaModel.Unit" Role="Unit" Multiplicity="0..1" />
+          <End Type="FuglBrennaModel.Member" Role="Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="UnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Unit__LeaderId__21B6055D">
+          <End Type="FuglBrennaModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="FuglBrennaModel.Unit" Role="Unit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Unit">
+              <PropertyRef Name="LeaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SubRealm__RealmI__20C1E124">
+          <End Type="FuglBrennaModel.Realm" Role="Realm" Multiplicity="1" />
+          <End Type="FuglBrennaModel.SubRealm" Role="SubRealm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Realm">
+              <PropertyRef Name="RealmId" />
+            </Principal>
+            <Dependent Role="SubRealm">
+              <PropertyRef Name="RealmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FuglBrennaModelStoreContainer" CdmEntityContainer="FuglBrennaEntities">
+          <EntitySetMapping Name="Attendances">
+            <EntityTypeMapping TypeName="FuglBrennaModel.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="AttendanceId" ColumnName="AttendanceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="FuglBrennaModel.Event">
+              <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
+                <ScalarProperty Name="SubRealmId" ColumnName="SubRealmId" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventTypes">
+            <EntityTypeMapping TypeName="FuglBrennaModel.EventType">
+              <MappingFragment StoreEntitySet="EventType">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="FuglBrennaModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="SubRealmId" ColumnName="SubRealmId" />
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="DoB" ColumnName="DoB" />
+                <ScalarProperty Name="BattleName" ColumnName="BattleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Realms">
+            <EntityTypeMapping TypeName="FuglBrennaModel.Realm">
+              <MappingFragment StoreEntitySet="Realm">
+                <ScalarProperty Name="RealmCity" ColumnName="RealmCity" />
+                <ScalarProperty Name="RealmState" ColumnName="RealmState" />
+                <ScalarProperty Name="RealmName" ColumnName="RealmName" />
+                <ScalarProperty Name="RealmId" ColumnName="RealmId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubRealms">
+            <EntityTypeMapping TypeName="FuglBrennaModel.SubRealm">
+              <MappingFragment StoreEntitySet="SubRealm">
+                <ScalarProperty Name="RealmId" ColumnName="RealmId" />
+                <ScalarProperty Name="PracticeTime" ColumnName="PracticeTime" />
+                <ScalarProperty Name="PracticeDay" ColumnName="PracticeDay" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="SubRealmAddress" ColumnName="SubRealmAddress" />
+                <ScalarProperty Name="SubRealmCity" ColumnName="SubRealmCity" />
+                <ScalarProperty Name="SubRealmState" ColumnName="SubRealmState" />
+                <ScalarProperty Name="SubRealmName" ColumnName="SubRealmName" />
+                <ScalarProperty Name="SubRealmId" ColumnName="SubRealmId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Units">
+            <EntityTypeMapping TypeName="FuglBrennaModel.Unit">
+              <MappingFragment StoreEntitySet="Unit">
+                <ScalarProperty Name="LeaderId" ColumnName="LeaderId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UnitName" ColumnName="UnitName" />
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

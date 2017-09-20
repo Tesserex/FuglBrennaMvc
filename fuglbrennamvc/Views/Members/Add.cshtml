@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Add";
+}
+@model List<FuglBrennaMvc.Models.SubRealm>
+
+<h2>Add</h2>
+
+@{ 
+    // we get to use normal html forms here instead of funky asp tags
+}
+
+<form action="@Url.Action("Add")" method="post" class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label" for="ShireId">Shire</label>
+        <select name="ShireId" id="ShireId" class="form-control">
+            @foreach (var subRealm in Model) {
+                <option value="@subRealm.SubRealmId">@subRealm.SubRealmName</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="FirstName">First Name</label>
+        <input type="text" name="FirstName" id="FirstName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="LastName">Last Name</label>
+        <input type="text" name="LastName" id="LastName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="BattleName">Battle Name</label>
+        <input type="text" name="BattleName" id="BattleName" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+

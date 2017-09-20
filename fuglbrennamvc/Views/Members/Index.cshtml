@@ -1,0 +1,45 @@
+﻿@{
+    // large blocks of code can go inside these @{ } tags.
+    // single line code can just use the @ sign, like the foreach in the table.
+    // It's smart enough to know when you're using html inside the code block and find the closing brace.
+    // we need to tell the view what type the model is. In the page, "Model" refers to the model we passed in.
+}
+@model List<FuglBrennaMvc.Models.Member>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Shire</th>
+            <th>Real Name</th>
+            <th>Fighting Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var member in Model) {
+            <tr>
+                <td>@member.SubRealm.SubRealmName</td>
+                <td>@member.FirstName @member.LastName</td>
+                <td>@member.BattleName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{ 
+    // an important note about how we did @member.Shire.Name above:
+    // When we queried the database, we didn't ask it to look up the shire names, we only
+    // asked for member information. So here, when we ask the shire name, it has to
+    // go back to the database again and look up the shire to get the name. Since we only
+    // have one shire displayed (Uppsala) it only does it once, but this can cause
+    // performance problems in big systems. There are ways to get the shire data up front too.
+}
+
+<div>
+    <a href="@Url.Action("Add")">Add</a>
+</div>

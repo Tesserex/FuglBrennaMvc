@@ -1,0 +1,28 @@
+﻿@model List<FuglBrennaMvc.Models.Realm>
+@{
+    ViewBag.Title = "Index";
+}
+<table>
+    <thead>
+        <tr>
+            <th>Realm</th>
+            <th>State</th>
+            <th>City</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var realm in Model)
+        {
+            <tr>
+                <td>@realm.RealmName</td>
+                <td>@realm.RealmState</td>
+                <td>@realm.RealmCity</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div>
+    <a href="@Url.Action("Add")">Add</a>
+</div>

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<FuglBrennaMvc.Models.SubRealm>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SubRealmName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubRealmState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubRealmCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubRealmAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PracticeDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PracticeTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Realm.RealmName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubRealmName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubRealmState)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubRealmCity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubRealmAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PracticeDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PracticeTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Realm.RealmName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SubRealmId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SubRealmId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SubRealmId })
+        </td>
+    </tr>
+}
+
+</table>
