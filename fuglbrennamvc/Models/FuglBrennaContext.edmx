@@ -35,9 +35,8 @@
           </Key>
           <Property Name="MemberLoginId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MemberId" Type="int" />
-          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PasswordHash" Type="varchar" MaxLength="256" Nullable="false" />
-          <Property Name="Salt" Type="varchar" MaxLength="64" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -384,11 +383,10 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
           </Key>
           <Property Name="MemberLoginId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MemberId" Type="Int32" />
-          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="Salt" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Member" Relationship="FuglBrennaModel.FK__MemberLog__Membe__4BAC3F29" FromRole="MemberLogin" ToRole="Member" />
           <NavigationProperty Name="Roles" Relationship="FuglBrennaModel.MemberRoles" FromRole="MemberLogin" ToRole="Role" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -601,9 +599,8 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
           <EntitySetMapping Name="MemberLogins">
             <EntityTypeMapping TypeName="FuglBrennaModel.MemberLogin">
               <MappingFragment StoreEntitySet="MemberLogins">
-                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="MemberLoginId" ColumnName="MemberLoginId" />
               </MappingFragment>

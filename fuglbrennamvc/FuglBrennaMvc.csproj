@@ -293,6 +293,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\MemberUserStore.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -330,7 +331,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FuglBrennaContext.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\FuglBrennaContext.Partial.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Member.cs">
       <DependentUpon>FuglBrennaContext.tt</DependentUpon>
@@ -338,6 +339,7 @@
     <Compile Include="Models\MemberLogin.cs">
       <DependentUpon>FuglBrennaContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MemberLogin.Partial.cs" />
     <Compile Include="Models\Realm.cs">
       <DependentUpon>FuglBrennaContext.tt</DependentUpon>
     </Compile>
@@ -452,18 +454,13 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\SendCode.cshtml" />
-    <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />

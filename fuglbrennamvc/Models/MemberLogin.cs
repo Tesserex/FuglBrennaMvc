@@ -22,9 +22,8 @@ namespace FuglBrennaMvc.Models
     
         public int MemberLoginId { get; set; }
         public Nullable<int> MemberId { get; set; }
-        public string Username { get; set; }
         public string PasswordHash { get; set; }
-        public string Salt { get; set; }
+        public string Email { get; set; }
     
         public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
