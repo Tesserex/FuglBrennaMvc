@@ -290,7 +290,11 @@
     <Compile Include="App_Start\MemberUserStore.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Forum\ForumAreaRegistration.cs" />
+    <Compile Include="Areas\Forum\ViewModels\Section\CreateViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Areas\Forum\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Forum\Controllers\SectionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
@@ -308,6 +312,15 @@
       <DependentUpon>FuglBrennaContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EventType.cs">
+      <DependentUpon>FuglBrennaContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumPost.cs">
+      <DependentUpon>FuglBrennaContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumSection.cs">
+      <DependentUpon>FuglBrennaContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumTopic.cs">
       <DependentUpon>FuglBrennaContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FuglBrennaContext.Context.cs">
@@ -418,6 +431,9 @@
       <DependentUpon>FuglBrennaContext.edmx</DependentUpon>
     </Content>
     <Content Include="ClassDiagram1.cd" />
+    <Content Include="Areas\Forum\Views\web.config" />
+    <Content Include="Areas\Forum\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Forum\Views\Section\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.0.js" />
@@ -472,9 +488,13 @@
     <Content Include="Views\SubRealms\Index.cshtml" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
+    <Content Include="Areas\Forum\Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Forum\Models\" />
+    <Folder Include="Areas\Forum\Views\Shared\" />
+    <Folder Include="Views\Section\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

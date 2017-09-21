@@ -34,5 +34,8 @@ namespace FuglBrennaMvc.Models
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<SubRealm> SubRealms { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
+        public virtual DbSet<ForumPost> ForumPosts { get; set; }
+        public virtual DbSet<ForumSection> ForumSections { get; set; }
+        public virtual DbSet<ForumTopic> ForumTopics { get; set; }
     }
 }

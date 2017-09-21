@@ -29,6 +29,36 @@
           <Property Name="EventTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Type" Type="nchar" MaxLength="30" />
         </EntityType>
+        <EntityType Name="ForumPost">
+          <Key>
+            <PropertyRef Name="ForumPostId" />
+          </Key>
+          <Property Name="ForumPostId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ForumTopicId" Type="int" Nullable="false" />
+          <Property Name="CreatedMemberId" Type="int" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ForumSection">
+          <Key>
+            <PropertyRef Name="ForumSectionId" />
+          </Key>
+          <Property Name="ForumSectionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
+          <Property Name="CreatedMemberId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ForumTopic">
+          <Key>
+            <PropertyRef Name="ForumTopicId" />
+          </Key>
+          <Property Name="ForumTopicId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ForumSectionId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedMemberId" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="PostCount" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="MemberLogins">
           <Key>
             <PropertyRef Name="MemberLoginId" />
@@ -147,6 +177,66 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__ForumPost__Creat__5AEE82B9">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="ForumPost" Type="Self.ForumPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="ForumPost">
+              <PropertyRef Name="CreatedMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ForumPost__Forum__59FA5E80">
+          <End Role="ForumTopic" Type="Self.ForumTopic" Multiplicity="1" />
+          <End Role="ForumPost" Type="Self.ForumPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ForumTopic">
+              <PropertyRef Name="ForumTopicId" />
+            </Principal>
+            <Dependent Role="ForumPost">
+              <PropertyRef Name="ForumTopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ForumSect__Creat__534D60F1">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="ForumSection" Type="Self.ForumSection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="ForumSection">
+              <PropertyRef Name="CreatedMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ForumTopi__Creat__571DF1D5">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="ForumTopic" Type="Self.ForumTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="ForumTopic">
+              <PropertyRef Name="CreatedMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ForumTopi__Forum__5629CD9C">
+          <End Role="ForumSection" Type="Self.ForumSection" Multiplicity="1" />
+          <End Role="ForumTopic" Type="Self.ForumTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ForumSection">
+              <PropertyRef Name="ForumSectionId" />
+            </Principal>
+            <Dependent Role="ForumTopic">
+              <PropertyRef Name="ForumSectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Member__SubRealm__1FCDBCEB">
           <End Role="SubRealms" Type="Self.SubRealms" Multiplicity="0..1" />
           <End Role="Members" Type="Self.Members" Multiplicity="*" />
@@ -235,6 +325,9 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
           <EntitySet Name="Attendances" EntityType="Self.Attendances" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventTypes" EntityType="Self.EventTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ForumPost" EntityType="Self.ForumPost" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ForumSection" EntityType="Self.ForumSection" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ForumTopic" EntityType="Self.ForumTopic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberLogins" EntityType="Self.MemberLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Realms" EntityType="Self.Realms" Schema="dbo" store:Type="Tables" />
@@ -262,6 +355,26 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
           <AssociationSet Name="FK__Event__SubRealmI__1CF15040" Association="Self.FK__Event__SubRealmI__1CF15040">
             <End Role="SubRealms" EntitySet="SubRealms" />
             <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ForumPost__Creat__5AEE82B9" Association="Self.FK__ForumPost__Creat__5AEE82B9">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="ForumPost" EntitySet="ForumPost" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ForumPost__Forum__59FA5E80" Association="Self.FK__ForumPost__Forum__59FA5E80">
+            <End Role="ForumTopic" EntitySet="ForumTopic" />
+            <End Role="ForumPost" EntitySet="ForumPost" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ForumSect__Creat__534D60F1" Association="Self.FK__ForumSect__Creat__534D60F1">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="ForumSection" EntitySet="ForumSection" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ForumTopi__Creat__571DF1D5" Association="Self.FK__ForumTopi__Creat__571DF1D5">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="ForumTopic" EntitySet="ForumTopic" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ForumTopi__Forum__5629CD9C" Association="Self.FK__ForumTopi__Forum__5629CD9C">
+            <End Role="ForumSection" EntitySet="ForumSection" />
+            <End Role="ForumTopic" EntitySet="ForumTopic" />
           </AssociationSet>
           <AssociationSet Name="FK__Member__SubRealm__1FCDBCEB" Association="Self.FK__Member__SubRealm__1FCDBCEB">
             <End Role="SubRealms" EntitySet="SubRealms" />
@@ -346,6 +459,29 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
             <End Role="MemberLogin" EntitySet="MemberLogins" />
             <End Role="Role" EntitySet="Roles" />
           </AssociationSet>
+          <EntitySet Name="ForumPosts" EntityType="FuglBrennaModel.ForumPost" />
+          <EntitySet Name="ForumSections" EntityType="FuglBrennaModel.ForumSection" />
+          <EntitySet Name="ForumTopics" EntityType="FuglBrennaModel.ForumTopic" />
+          <AssociationSet Name="FK__ForumPost__Creat__5AEE82B9" Association="FuglBrennaModel.FK__ForumPost__Creat__5AEE82B9">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="ForumPost" EntitySet="ForumPosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ForumPost__Forum__59FA5E80" Association="FuglBrennaModel.FK__ForumPost__Forum__59FA5E80">
+            <End Role="ForumTopic" EntitySet="ForumTopics" />
+            <End Role="ForumPost" EntitySet="ForumPosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ForumSect__Creat__534D60F1" Association="FuglBrennaModel.FK__ForumSect__Creat__534D60F1">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="ForumSection" EntitySet="ForumSections" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ForumTopi__Forum__5629CD9C" Association="FuglBrennaModel.FK__ForumTopi__Forum__5629CD9C">
+            <End Role="ForumSection" EntitySet="ForumSections" />
+            <End Role="ForumTopic" EntitySet="ForumTopics" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ForumTopi__Creat__571DF1D5" Association="FuglBrennaModel.FK__ForumTopi__Creat__571DF1D5">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="ForumTopic" EntitySet="ForumTopics" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Attendance">
           <Key>
@@ -404,6 +540,9 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
           <NavigationProperty Name="SubRealm" Relationship="FuglBrennaModel.FK__Member__SubRealm__1FCDBCEB" FromRole="Member" ToRole="SubRealm" />
           <NavigationProperty Name="Unit" Relationship="FuglBrennaModel.FK__Member__UnitId__1ED998B2" FromRole="Member" ToRole="Unit" />
           <NavigationProperty Name="Units" Relationship="FuglBrennaModel.FK__Unit__LeaderId__21B6055D" FromRole="Member" ToRole="Unit" />
+          <NavigationProperty Name="ForumPosts" Relationship="FuglBrennaModel.FK__ForumPost__Creat__5AEE82B9" FromRole="Member" ToRole="ForumPost" />
+          <NavigationProperty Name="ForumSections" Relationship="FuglBrennaModel.FK__ForumSect__Creat__534D60F1" FromRole="Member" ToRole="ForumSection" />
+          <NavigationProperty Name="ForumTopics" Relationship="FuglBrennaModel.FK__ForumTopi__Creat__571DF1D5" FromRole="Member" ToRole="ForumTopic" />
         </EntityType>
         <EntityType Name="Realm">
           <Key>
@@ -563,6 +702,103 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
           <End Type="FuglBrennaModel.MemberLogin" Role="MemberLogin" Multiplicity="*" />
           <End Type="FuglBrennaModel.Role" Role="Role" Multiplicity="*" />
         </Association>
+        <EntityType Name="ForumPost">
+          <Key>
+            <PropertyRef Name="ForumPostId" />
+          </Key>
+          <Property Name="ForumPostId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ForumTopicId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedMemberId" Type="Int32" Nullable="false" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Member" Relationship="FuglBrennaModel.FK__ForumPost__Creat__5AEE82B9" FromRole="ForumPost" ToRole="Member" />
+          <NavigationProperty Name="ForumTopic" Relationship="FuglBrennaModel.FK__ForumPost__Forum__59FA5E80" FromRole="ForumPost" ToRole="ForumTopic" />
+        </EntityType>
+        <EntityType Name="ForumSection">
+          <Key>
+            <PropertyRef Name="ForumSectionId" />
+          </Key>
+          <Property Name="ForumSectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedMemberId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="FuglBrennaModel.FK__ForumSect__Creat__534D60F1" FromRole="ForumSection" ToRole="Member" />
+          <NavigationProperty Name="ForumTopics" Relationship="FuglBrennaModel.FK__ForumTopi__Forum__5629CD9C" FromRole="ForumSection" ToRole="ForumTopic" />
+        </EntityType>
+        <EntityType Name="ForumTopic">
+          <Key>
+            <PropertyRef Name="ForumTopicId" />
+          </Key>
+          <Property Name="ForumTopicId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ForumSectionId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedMemberId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="PostCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ForumPosts" Relationship="FuglBrennaModel.FK__ForumPost__Forum__59FA5E80" FromRole="ForumTopic" ToRole="ForumPost" />
+          <NavigationProperty Name="ForumSection" Relationship="FuglBrennaModel.FK__ForumTopi__Forum__5629CD9C" FromRole="ForumTopic" ToRole="ForumSection" />
+          <NavigationProperty Name="Member" Relationship="FuglBrennaModel.FK__ForumTopi__Creat__571DF1D5" FromRole="ForumTopic" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK__ForumPost__Creat__5AEE82B9">
+          <End Type="FuglBrennaModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="FuglBrennaModel.ForumPost" Role="ForumPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="ForumPost">
+              <PropertyRef Name="CreatedMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ForumPost__Forum__59FA5E80">
+          <End Type="FuglBrennaModel.ForumTopic" Role="ForumTopic" Multiplicity="1" />
+          <End Type="FuglBrennaModel.ForumPost" Role="ForumPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ForumTopic">
+              <PropertyRef Name="ForumTopicId" />
+            </Principal>
+            <Dependent Role="ForumPost">
+              <PropertyRef Name="ForumTopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ForumSect__Creat__534D60F1">
+          <End Type="FuglBrennaModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="FuglBrennaModel.ForumSection" Role="ForumSection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="ForumSection">
+              <PropertyRef Name="CreatedMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ForumTopi__Forum__5629CD9C">
+          <End Type="FuglBrennaModel.ForumSection" Role="ForumSection" Multiplicity="1" />
+          <End Type="FuglBrennaModel.ForumTopic" Role="ForumTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ForumSection">
+              <PropertyRef Name="ForumSectionId" />
+            </Principal>
+            <Dependent Role="ForumTopic">
+              <PropertyRef Name="ForumSectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ForumTopi__Creat__571DF1D5">
+          <End Type="FuglBrennaModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="FuglBrennaModel.ForumTopic" Role="ForumTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="ForumTopic">
+              <PropertyRef Name="CreatedMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -670,6 +906,39 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
               <ScalarProperty Name="MemberLoginId" ColumnName="MemberLoginId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="ForumPosts">
+            <EntityTypeMapping TypeName="FuglBrennaModel.ForumPost">
+              <MappingFragment StoreEntitySet="ForumPost">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="CreatedMemberId" ColumnName="CreatedMemberId" />
+                <ScalarProperty Name="ForumTopicId" ColumnName="ForumTopicId" />
+                <ScalarProperty Name="ForumPostId" ColumnName="ForumPostId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ForumSections">
+            <EntityTypeMapping TypeName="FuglBrennaModel.ForumSection">
+              <MappingFragment StoreEntitySet="ForumSection">
+                <ScalarProperty Name="CreatedMemberId" ColumnName="CreatedMemberId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ForumSectionId" ColumnName="ForumSectionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ForumTopics">
+            <EntityTypeMapping TypeName="FuglBrennaModel.ForumTopic">
+              <MappingFragment StoreEntitySet="ForumTopic">
+                <ScalarProperty Name="PostCount" ColumnName="PostCount" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedMemberId" ColumnName="CreatedMemberId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ForumSectionId" ColumnName="ForumSectionId" />
+                <ScalarProperty Name="ForumTopicId" ColumnName="ForumTopicId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

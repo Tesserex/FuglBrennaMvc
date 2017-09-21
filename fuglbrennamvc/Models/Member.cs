@@ -20,6 +20,9 @@ namespace FuglBrennaMvc.Models
             this.Attendances = new HashSet<Attendance>();
             this.MemberLogins = new HashSet<MemberLogin>();
             this.Units = new HashSet<Unit>();
+            this.ForumPosts = new HashSet<ForumPost>();
+            this.ForumSections = new HashSet<ForumSection>();
+            this.ForumTopics = new HashSet<ForumTopic>();
         }
     
         public int MemberId { get; set; }
@@ -38,5 +41,11 @@ namespace FuglBrennaMvc.Models
         public virtual Unit Unit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Unit> Units { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ForumPost> ForumPosts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ForumSection> ForumSections { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ForumTopic> ForumTopics { get; set; }
     }
 }
