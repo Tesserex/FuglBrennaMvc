@@ -1,27 +1,66 @@
-﻿@model FuglBrennaMvc.Models.IndexViewModel
-@{
-    ViewBag.Title = "Manage";
-}
+﻿@model FuglBrennaMvc.ViewModels.Manage.IndexViewModel
 
-<h2>@ViewBag.Title.</h2>
+<h2>Account</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
-            ]
-        </dd>
-    </dl>
-</div>
+@using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-md-4" for="password">Password</label>
+                <div class="form-control-static col-md-8">
+                    @if (Model.HasPassword)
+                    {
+                        @Html.ActionLink("Change your password", "ChangePassword")
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Create", "SetPassword")
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4" for="BattleName">Battle Name</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="BattleName" id="BattleName" value="@Model.BattleName" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4" for="FirstName">First Name</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="FirstName" id="FirstName" value="@Model.FirstName" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4" for="LastName">Last Name</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="LastName" id="LastName" value="@Model.LastName" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4" for="BirthDate">Birthdate</label>
+                <div class="col-md-8">
+                    <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy">
+                        <input class="form-control" type="text" name="BirthDate" id="BirthDate" value="@(Model.BirthDate.HasValue ? Model.BirthDate.Value.ToString("MM-dd-yyyy") : "")" />
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="submit" class="btn btn-default">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $("#datepicker").datepicker({ autoclose: true, todayHighlight: true });
+        });
+    </script>    
+}

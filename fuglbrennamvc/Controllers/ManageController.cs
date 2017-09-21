@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FuglBrennaMvc.Models;
+using FuglBrennaMvc.ViewModels.Manage;
 
 namespace FuglBrennaMvc.Controllers
 {
@@ -15,12 +16,14 @@ namespace FuglBrennaMvc.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly FuglBrennaEntities context;
 
         public ManageController()
         {
+            this.context = new FuglBrennaEntities();
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager) : this()
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -61,12 +64,46 @@ namespace FuglBrennaMvc.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId<int>();
+
+            var memberLogin = this.context.MemberLogins.Find(userId);
+            var member = memberLogin.Member;
+
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId.ToString())
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId.ToString()),
+                BattleName = member?.BattleName,
+                FirstName = member?.FirstName,
+                LastName = member?.LastName,
+                BirthDate = member?.DoB
             };
             return View(model);
+        }
+
+        [HttpPost]
+        [ActionName("Index")]
+        [ValidateAntiForgeryToken]
+        public ActionResult IndexPost(IndexViewModel model)
+        {
+            var userId = User.Identity.GetUserId<int>();
+
+            var memberLogin = this.context.MemberLogins.Find(userId);
+            var member = memberLogin.Member;
+
+            if (member == null)
+            {
+                member = new Member();
+                memberLogin.Member = member;
+            }
+
+            member.BattleName = model.BattleName;
+            member.FirstName = model.FirstName;
+            member.LastName = model.LastName;
+            member.DoB = model.BirthDate;
+
+            this.context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
         
         //
@@ -144,9 +181,6 @@ namespace FuglBrennaMvc.Controllers
         }
 
 #region Helpers
-        // Used for XSRF protection when adding external logins
-        private const string XsrfKey = "XsrfId";
-
         private IAuthenticationManager AuthenticationManager
         {
             get
