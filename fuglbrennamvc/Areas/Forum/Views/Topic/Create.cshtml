@@ -1,0 +1,23 @@
+﻿@model ForumSectionViewModel
+
+<h2>@Model.Name</h2>
+
+@using (Html.BeginForm("Create", "Topic", FormMethod.Post, new { @class = "form", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="SectionId" value="@Model.Id" />
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="control-label" for="Title">Topic Title</label>
+                <input type="text" class="form-control" name="Title" id="Title" />
+            </div>
+            <div class="form-group">
+                <textarea class="tinymce" type="text" name="Content" id="Content" rows="10"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+}

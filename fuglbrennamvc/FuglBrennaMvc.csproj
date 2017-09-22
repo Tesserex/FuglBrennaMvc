@@ -291,11 +291,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Forum\Controllers\ForumController.cs" />
+    <Compile Include="Areas\Forum\Controllers\TopicController.cs" />
     <Compile Include="Areas\Forum\ForumAreaRegistration.cs" />
     <Compile Include="Areas\Forum\Helpers\AuthorizeMemberAttribute.cs" />
     <Compile Include="Areas\Forum\Services\ForumService.cs" />
+    <Compile Include="Areas\Forum\ViewModels\ForumTopicListViewModel.cs" />
+    <Compile Include="Areas\Forum\ViewModels\ForumTopicViewModel.cs" />
     <Compile Include="Areas\Forum\ViewModels\Section\CreateSectionViewModel.cs" />
     <Compile Include="Areas\Forum\ViewModels\Section\ForumSectionViewModel.cs" />
+    <Compile Include="Areas\Forum\ViewModels\Topic\CreateTopicViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Areas\Forum\Controllers\HomeController.cs" />
     <Compile Include="Areas\Forum\Controllers\SectionController.cs" />
@@ -370,6 +374,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Forum\Content\css\forum.css" />
+    <Content Include="Areas\Forum\Content\js\forum.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\bootstrap\additional.css" />
@@ -440,6 +445,8 @@
     <Content Include="Areas\Forum\Views\web.config" />
     <Content Include="Areas\Forum\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Forum\Views\Section\Create.cshtml" />
+    <Content Include="Areas\Forum\Views\Home\Section.cshtml" />
+    <Content Include="Areas\Forum\Views\Topic\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.0.js" />

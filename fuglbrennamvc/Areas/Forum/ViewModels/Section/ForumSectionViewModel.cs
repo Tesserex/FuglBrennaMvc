@@ -13,5 +13,6 @@ namespace FuglBrennaMvc.Areas.Forum.ViewModels.Section
         public int TopicCount { get; internal set; }
         public int PostCount { get; internal set; }
         public DateTime? LastPost { get; internal set; }
+        public int Id { get; internal set; }
     }
 }

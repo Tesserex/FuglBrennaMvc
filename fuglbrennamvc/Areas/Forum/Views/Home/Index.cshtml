@@ -15,7 +15,7 @@
     @foreach (var s in Model)
     {
         <div class="col-xs-12 col-lg-6">
-        <a class="section">
+        <a class="section" href="@Url.Action("Section", "Home", new { id = s.Id })">
             <div class="section__main">
                 <div class="section__title">@s.Name</div>
                 <p class="section__description">@s.Description</p>
