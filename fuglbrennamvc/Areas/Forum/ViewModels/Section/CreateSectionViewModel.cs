@@ -5,7 +5,7 @@ using System.Web;
 
 namespace FuglBrennaMvc.Areas.Forum.ViewModels.Section
 {
-    public class CreateViewModel
+    public class CreateSectionViewModel
     {
         public string Name { get; set; }
         public string Description { get; set; }

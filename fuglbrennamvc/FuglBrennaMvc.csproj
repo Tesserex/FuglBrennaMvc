@@ -290,8 +290,12 @@
     <Compile Include="App_Start\MemberUserStore.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Forum\Controllers\ForumController.cs" />
     <Compile Include="Areas\Forum\ForumAreaRegistration.cs" />
-    <Compile Include="Areas\Forum\ViewModels\Section\CreateViewModel.cs" />
+    <Compile Include="Areas\Forum\Helpers\AuthorizeMemberAttribute.cs" />
+    <Compile Include="Areas\Forum\Services\ForumService.cs" />
+    <Compile Include="Areas\Forum\ViewModels\Section\CreateSectionViewModel.cs" />
+    <Compile Include="Areas\Forum\ViewModels\Section\ForumSectionViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Areas\Forum\Controllers\HomeController.cs" />
     <Compile Include="Areas\Forum\Controllers\SectionController.cs" />
@@ -343,6 +347,7 @@
     <Compile Include="Models\Member.cs">
       <DependentUpon>FuglBrennaContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Member.Partial.cs" />
     <Compile Include="Models\MemberLogin.cs">
       <DependentUpon>FuglBrennaContext.tt</DependentUpon>
     </Compile>
@@ -364,6 +369,7 @@
     <Compile Include="ViewModels\Manage\IndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Forum\Content\css\forum.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\bootstrap\additional.css" />
@@ -493,6 +499,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Forum\Models\" />
+    <Folder Include="Areas\Forum\Views\Forum\" />
     <Folder Include="Areas\Forum\Views\Shared\" />
     <Folder Include="Views\Section\" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using FuglBrennaMvc.Areas.Forum.ViewModels.Section;
+﻿using FuglBrennaMvc.Areas.Forum.Helpers;
+using FuglBrennaMvc.Areas.Forum.ViewModels.Section;
 using FuglBrennaMvc.Models;
 using Microsoft.AspNet.Identity;
 using System;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace FuglBrennaMvc.Areas.Forum.Controllers
 {
-    public class SectionController : Controller
+    public class SectionController : ForumController
     {
         // GET: Section
         public ActionResult Index()
@@ -17,6 +18,7 @@ namespace FuglBrennaMvc.Areas.Forum.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [AuthorizeMember]
         public ActionResult Create()
         {
             return View();
@@ -25,21 +27,10 @@ namespace FuglBrennaMvc.Areas.Forum.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Create")]
-        public ActionResult CreatePost(CreateViewModel model)
+        [AuthorizeMember]
+        public ActionResult CreatePost(CreateSectionViewModel model)
         {
-            using (var db = new FuglBrennaEntities())
-            {
-                var userId = User.Identity.GetUserId<int>();
-                var memberLogin = db.MemberLogins.Find(userId);
-
-                var section = new ForumSection() {
-                    Name = model.Name,
-                    Description = model.Description,
-                    CreatedMemberId = memberLogin.MemberId.Value
-                };
-
-                db.SaveChanges();
-            }
+            this.ForumService.AddForumSection(model);
 
             return RedirectToAction("Index", "Home");
         }

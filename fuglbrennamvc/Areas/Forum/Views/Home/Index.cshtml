@@ -1,4 +1,6 @@
-﻿<h2>Forum</h2>
+﻿@model IEnumerable<ForumSectionViewModel>
+
+<h2>Forum</h2>
 
 <div class="row">
     <div class="col-md-12">
@@ -6,5 +8,40 @@
             <a class="btn btn-primary" href="@Url.Action("create", "section")">Add Section</a>
         </div>
     </div>
+</div>
+
+<div class="forum-sections">
+    @foreach (var s in Model)
+    {
+        <div class="section">
+        <div class="row section-row">
+            <div class="col-xs-12 col-sm-9 no-float">
+                <div class="section__main">
+                    <span class="section__title">@s.Name</span>
+                    <p class="section__description">@s.Description</p>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-3 no-float">
+                <div class="row forum-data">
+                    <div class="forum-data__datum">
+                        <div class="datum__label">Topics</div>
+                        <div class="datum__value">@s.TopicCount</div>
+                    </div>
+
+                    <div class="forum-data__datum">
+                        <div class="datum__label">Posts</div>
+                        <div class="datum__value">@s.PostCount</div>
+                    </div>
+                    
+                    <div class="forum-data__datum">
+                        <div class="datum__label">Last Post</div>
+                        <div class="datum__value">@(s.LastPost.HasValue ? s.LastPost.Value.ToString("MMM dd, yyyy hh:mm:sstt") : "")</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    }
 </div>
 

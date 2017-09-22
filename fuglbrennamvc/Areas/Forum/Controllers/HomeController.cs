@@ -6,17 +6,14 @@ using System.Web.Mvc;
 
 namespace FuglBrennaMvc.Areas.Forum.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ForumController
     {
-        public HomeController()
-        {
-
-        }
-
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            var sections = this.ForumService.GetSections();
+
+            return View(sections);
         }
     }
 }
