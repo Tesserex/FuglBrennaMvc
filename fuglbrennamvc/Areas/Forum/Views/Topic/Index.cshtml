@@ -7,7 +7,9 @@
     {
         <div class="forum-posts__post">
             <div class="post__member">
-                <span class="member-name">@post.MemberName</span>
+                <div class="member-name">@post.MemberName</div>
+                <div class="member-joined">@post.MemberJoinedOn.ToShortDateString()</div>
+                <div class="member-posts">@post.MemberPostCount.ToString("N0") Posts</div>
             </div>
 
             <span class="post__content">
@@ -15,7 +17,7 @@
             </span>
 
             <div class="post__data">
-                <span class="post__data__time" title="@post.CreatedOn.ToString("f")">
+                <span class="date-ago">
                     @post.CreatedOn.ToString()
                 </span>
             </div>

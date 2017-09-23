@@ -39,6 +39,8 @@ namespace FuglBrennaMvc.Areas.Forum.Services
                     Content = p.Content,
                     MemberId = p.Member.MemberId,
                     MemberName = p.Member.DisplayName,
+                    MemberPostCount = p.Member.PostCount,
+                    MemberJoinedOn = p.Member.MemberLogins.First().JoinedOn,
                     CreatedOn = p.CreatedOn
                 })
                 .ToList();
@@ -62,15 +64,17 @@ namespace FuglBrennaMvc.Areas.Forum.Services
             this.context.ForumPosts.Add(post);
             this.context.SaveChanges();
 
-            var postCount = this.context.ForumPosts
+            var topicPostCount = this.context.ForumPosts
                 .Where(p => p.ForumTopicId == model.TopicId)
                 .Count();
 
             var topic = this.context.ForumTopics.Find(model.TopicId);
-            topic.PostCount = postCount;
+            topic.PostCount = topicPostCount;
             this.context.SaveChanges();
 
-            var lastPage = ((postCount - 1) / PAGE_LENGTH) + 1;
+            UpdateMemberPostCount();
+
+            var lastPage = ((topicPostCount - 1) / PAGE_LENGTH) + 1;
             return lastPage;
         }
 
@@ -127,6 +131,8 @@ namespace FuglBrennaMvc.Areas.Forum.Services
 
             this.context.ForumTopics.Add(topic);
             this.context.SaveChanges();
+
+            UpdateMemberPostCount();
 
             return topic.ForumTopicId;
         }
@@ -192,6 +198,17 @@ namespace FuglBrennaMvc.Areas.Forum.Services
             };
 
             this.context.ForumSections.Add(section);
+
+            this.context.SaveChanges();
+        }
+
+        private void UpdateMemberPostCount()
+        {
+            var member = this.context.Members.Find(GetMemberId());
+            var postCount = this.context.ForumPosts
+                .Count(p => p.CreatedMemberId == member.MemberId);
+
+            member.PostCount = postCount;
 
             this.context.SaveChanges();
         }

@@ -32,6 +32,7 @@ namespace FuglBrennaMvc.Models
         public Nullable<System.DateTime> DoB { get; set; }
         public Nullable<int> UnitId { get; set; }
         public Nullable<int> SubRealmId { get; set; }
+        public int PostCount { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Attendance> Attendances { get; set; }

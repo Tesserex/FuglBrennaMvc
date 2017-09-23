@@ -12,4 +12,13 @@
         content_css: [
         ]
     });
+
+    $(".date-ago").each(function (i, e) {
+        var m = moment.utc($(e).html());
+        $(e).html(m.fromNow());
+        $(e).css('visibility', 'visible');
+
+        var localFull = m.local().format("LLLL");
+        $(e).attr('title', localFull);
+    });
 });
