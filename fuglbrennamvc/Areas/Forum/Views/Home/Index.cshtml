@@ -15,30 +15,36 @@
     @foreach (var s in Model)
     {
         <div class="col-xs-12 col-lg-6">
-        <a class="section" href="@Url.Action("Section", "Home", new { id = s.Id })">
-            <div class="section__main">
-                <div class="section__title">@s.Name</div>
-                <p class="section__description">@s.Description</p>
-            </div>
-
-            <div class="forum-data">
-                <div class="forum-data__datum">
-                    <div class="datum__label">@s.TopicCount</div>
-                    <div class="datum__value">Topics</div>
+            <a class="section" href="@Url.Action("Section", "Home", new { id = s.Id })">
+                <div class="section__main">
+                    <div class="section__title">@s.Name</div>
+                    <p class="section__description">@s.Description</p>
                 </div>
 
-                <div class="forum-data__datum">
-                    <div class="datum__label">@s.PostCount</div>
-                    <div class="datum__value">Posts</div>
+                <div class="forum-data">
+                    <div class="forum-data__datum">
+                        <div class="datum__label">@s.TopicCount</div>
+                        <div class="datum__value">Topics</div>
+                    </div>
+
+                    <div class="forum-data__datum">
+                        <div class="datum__label">@s.PostCount</div>
+                        <div class="datum__value">Posts</div>
+                    </div>
                 </div>
-            </div>
-            <div class="forum-last-post">
-                <div class="forum-data__datum">
-                    <div class="datum__label">Last Post</div>
-                    <div class="datum__value">@(s.LastPost.HasValue ? s.LastPost.Value.ToString("MMM dd, yyyy hh:mm:sstt") : "")</div>
+
+                @if (s.LastPostTopicId.HasValue)
+                {
+                <div class="forum-last-post">
+                    <div class="last-post__author">@s.LastPostAuthor</div>
+                    <div class="last-post__date">
+                        <span title="@s.LastPostTopic">
+                            @(s.LastPostTime.HasValue ? s.LastPostTime.Value.ToString("MMM dd, yyyy hh:mm:sstt") : "")
+                        </span>
+                    </div>
                 </div>
-            </div>
-        </a>
+                }
+            </a>
         </div>
     }
     </div>

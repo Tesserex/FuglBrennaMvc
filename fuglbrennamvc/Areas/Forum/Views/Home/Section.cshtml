@@ -18,9 +18,9 @@
         @foreach (var s in Model.Topics)
         {
             <div class="col-xs-12">
-                <a class="topic" href="@Url.Action("Index", "Topic", new { id = s.Id })">
+                <div class="topic">
                     <div class="topic__main">
-                        <div class="topic__title">@s.Title</div>
+                        <a class="topic__title" href="@Url.Action("Index", "Topic", new { id = s.Id })">@s.Title</a>
                         <div class="topic__author">@s.CreatedBy</div>
                     </div>
 
@@ -33,7 +33,7 @@
                         <div class="last-post__name">@s.LastPostMember</div>
                         <div class="last-post__date">@(s.LastPostDate.HasValue ? s.LastPostDate.Value.ToString("MMM dd, yyyy hh:mm:sstt") : "")</div>
                     </div>
-                </a>
+                </div>
             </div>
         }
     </div>

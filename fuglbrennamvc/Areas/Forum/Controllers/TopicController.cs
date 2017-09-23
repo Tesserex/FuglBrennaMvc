@@ -10,14 +10,16 @@ namespace FuglBrennaMvc.Areas.Forum.Controllers
 {
     public class TopicController : ForumController
     {
-        public ActionResult Index(int? id)
+        public ActionResult Index(int? id, int page = 1)
         {
             if (id == null)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            return View();
+            var topic = this.ForumService.GetTopic(id.Value, page);
+
+            return View(topic);
         }
 
         [HttpGet]
@@ -36,6 +38,14 @@ namespace FuglBrennaMvc.Areas.Forum.Controllers
             var topicId = this.ForumService.CreateTopic(model);
 
             return RedirectToAction("Index", new { id = topicId });
+        }
+
+        [HttpPost]
+        [AuthorizeMember]
+        public ActionResult Reply(ReplyViewModel model)
+        {
+            var lastPage = this.ForumService.ReplyToTopic(model);
+            return RedirectToAction("Index", new { id = model.TopicId, page = lastPage });
         }
     }
 }

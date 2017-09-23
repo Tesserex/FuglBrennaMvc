@@ -1,0 +1,33 @@
+﻿@model ForumTopicPageViewModel
+
+<h2>@Model.TopicTitle</h2>
+
+<div class="forum-posts">
+    @foreach (var post in Model.Posts)
+    {
+        <div class="forum-posts__post">
+            <div class="post__member">
+                <span class="member-name">@post.MemberName</span>
+            </div>
+
+            <span class="post__content">
+                @Html.Raw(post.Content)
+            </span>
+
+            <div class="post__data">
+                <span class="post__data__time" title="@post.CreatedOn.ToString("f")">
+                    @post.CreatedOn.ToString()
+                </span>
+            </div>
+        </div>
+    }
+    <div class="forum-posts__reply">
+        @using (Html.BeginForm("Reply", "Topic", FormMethod.Post, new { @class = "form", role = "form" }))
+        {
+            <input type="hidden" name="TopicId" value="@Model.TopicId" />
+            <textarea class="tinymce" type="text" name="Content" id="Content" rows="10"></textarea>
+            <button type="submit" class="btn btn-primary">Reply</button>
+        }
+    </div>
+</div>
+
