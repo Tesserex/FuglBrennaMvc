@@ -1,4 +1,11 @@
-﻿.forum-sections, .forum-topics, .forum-posts {
+﻿body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px; }
+
+p {
+  margin: 0; }
+
+.forum-sections, .forum-topics, .forum-posts {
   padding: 0;
   margin-top: 20px; }
 
@@ -81,14 +88,12 @@
   .forum-posts__post {
     border-bottom: 1px solid #ccc;
     background: rgba(240, 240, 240, 0.75);
-    color: #000;
-    align-items: center; }
+    color: #000; }
     .forum-posts__post:nth-child(even) {
       background: rgba(215, 215, 215, 0.75); }
     .forum-posts__post .post__member {
       flex-grow: 0;
       width: 20%;
-      align-self: stretch;
       padding: 15px; }
       .forum-posts__post .post__member .member-name {
         text-align: left;
@@ -98,12 +103,21 @@
       .forum-posts__post .post__member .member-joined, .forum-posts__post .post__member .member-posts {
         color: #666;
         font-size: 12px; }
-    .forum-posts__post .post__content {
+    .forum-posts__post .post__main {
       flex-grow: 4;
-      align-self: flex-start;
-      padding: 15px; }
+      display: flex;
+      flex-direction: column;
+      padding: 0 15px; }
+      .forum-posts__post .post__main .content {
+        display: block;
+        padding: 15px 0; }
+      .forum-posts__post .post__main .controls {
+        margin: auto 0;
+        padding: 15px 0 5px;
+        font-size: 12px; }
     .forum-posts__post .post__data {
-      align-self: flex-start;
+      width: 15%;
+      text-align: right;
       font-size: 12px;
       line-height: 12px;
       color: #666;
@@ -111,6 +125,23 @@
   .forum-posts__reply {
     padding: 30px;
     background: rgba(166, 196, 212, 0.75); }
+
+.forum-quote {
+  border: 1px solid #6297b2;
+  background: rgba(166, 196, 212, 0.75);
+  padding: 15px;
+  margin: 0 20px 20px 20px; }
+  .forum-quote__header {
+    font-style: italic;
+    padding-bottom: 15px; }
+    .forum-quote__header__name {
+      font-size: 14px;
+      font-weight: bold;
+      color: #333; }
+    .forum-quote__header__date {
+      float: right;
+      color: #666;
+      font-size: 12px; }
 
 .date-ago {
   visibility: hidden; }

@@ -5,16 +5,21 @@
 <div class="forum-posts">
     @foreach (var post in Model.Posts)
     {
-        <div class="forum-posts__post">
+        <div class="forum-posts__post" data-member="@post.MemberName" data-date="@post.CreatedOn.ToString()">
             <div class="post__member">
                 <div class="member-name">@post.MemberName</div>
                 <div class="member-joined">@post.MemberJoinedOn.ToShortDateString()</div>
                 <div class="member-posts">@post.MemberPostCount.ToString("N0") Posts</div>
             </div>
 
-            <span class="post__content">
-                @Html.Raw(post.Content)
-            </span>
+            <div class="post__main">
+                <div class="content">@Html.Raw(post.Content)</div>
+
+                <span class="controls">
+                    <a href="#" class="post-quote">Quote</a>
+                </span>
+            </div>
+
 
             <div class="post__data">
                 <span class="date-ago">
@@ -33,3 +38,12 @@
     </div>
 </div>
 
+<template id="forum-quote-template">
+    <div class="forum-quote mceNonEditable" contenteditable="false">
+        <div class="forum-quote__header">
+            <span class="forum-quote__header__name"></span>
+            <span class="forum-quote__header__date"></span>
+        </div>
+        <div class="forum-quote__content"></div>
+    </div>
+</template>
