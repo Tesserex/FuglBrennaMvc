@@ -18,6 +18,7 @@ namespace FuglBrennaMvc.Models
         public ForumSection()
         {
             this.ForumTopics = new HashSet<ForumTopic>();
+            this.RolePermissions = new HashSet<RolePermission>();
         }
     
         public int ForumSectionId { get; set; }
@@ -28,5 +29,7 @@ namespace FuglBrennaMvc.Models
         public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ForumTopic> ForumTopics { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RolePermission> RolePermissions { get; set; }
     }
 }

@@ -31,11 +31,13 @@ namespace FuglBrennaMvc.Models
         public virtual DbSet<MemberLogin> MemberLogins { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Realm> Realms { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<SubRealm> SubRealms { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
         public virtual DbSet<ForumPost> ForumPosts { get; set; }
         public virtual DbSet<ForumSection> ForumSections { get; set; }
         public virtual DbSet<ForumTopic> ForumTopics { get; set; }
+        public virtual DbSet<RolePermission> RolePermissions { get; set; }
+        public virtual DbSet<MemberRole> MemberRoles { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FuglBrennaMvc.Models;
+﻿using FuglBrennaMvc.Areas.Forum.Models;
+using FuglBrennaMvc.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace FuglBrennaMvc.Areas.Forum.Helpers
     public class AuthorizeMemberAttribute : AuthorizeAttribute
     {
         public string Message { get; set; }
+        public Permissions[] Permissions { get; set; }
 
         public AuthorizeMemberAttribute()
         {
@@ -34,7 +36,34 @@ namespace FuglBrennaMvc.Areas.Forum.Helpers
                 return false;
             }
 
-            return true;
+            return ValidatePermissions(userId);
+        }
+
+        private bool ValidatePermissions(int userId)
+        {
+            if (this.Permissions == null)
+            {
+                return true;
+            }
+
+            using (var db = new FuglBrennaEntities())
+            {
+                var permissions = db.MemberRoles
+                    .Where(m => m.MemberLoginId == userId)
+                    .SelectMany(m => m.Role.RolePermissions)
+                    .Select(p => p.Permission)
+                    .Distinct()
+                    .ToList();
+
+                var hasPermission = this.Permissions.Cast<int>().Intersect(permissions).Any();
+
+                if (!hasPermission)
+                {
+                    HttpContext.Current.Items["forumAuthorizationFailure"] = true;
+                }
+
+                return hasPermission;
+            }
         }
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
@@ -47,7 +76,18 @@ namespace FuglBrennaMvc.Areas.Forum.Helpers
                 });
                 filterContext.Result = new RedirectToRouteResult(routeValues);
 
-                filterContext.HttpContext.Response.Cookies.Add(new HttpCookie("FlashMessage", this.Message));
+                filterContext.HttpContext.Response.Error(this.Message);
+            }
+            else if (filterContext.HttpContext.Items.Contains("forumAuthorizationFailure"))
+            {
+                var routeValues = new RouteValueDictionary(new {
+                    area = "Forum",
+                    controller = "Home",
+                    action = "Index",
+                });
+                filterContext.Result = new RedirectToRouteResult(routeValues);
+
+                filterContext.HttpContext.Response.Error("You do not have permission to perform that action.");
             }
             else
             {

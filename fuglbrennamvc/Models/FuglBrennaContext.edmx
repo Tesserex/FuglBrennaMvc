@@ -69,15 +69,13 @@
           <Property Name="PasswordHash" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="JoinedOn" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MemberRoles">
           <Key>
-            <PropertyRef Name="MemberLoginId" />
-            <PropertyRef Name="RoleId" />
+            <PropertyRef Name="MemberRoleId" />
           </Key>
           <Property Name="MemberLoginId" Type="int" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="MemberRoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Members">
           <Key>
@@ -100,6 +98,15 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
           <Property Name="RealmName" Type="nchar" MaxLength="30" />
           <Property Name="RealmState" Type="nchar" MaxLength="30" />
           <Property Name="RealmCity" Type="nchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="RolePermissions">
+          <Key>
+            <PropertyRef Name="RolePermissionId" />
+          </Key>
+          <Property Name="RolePermissionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="ForumSectionId" Type="int" />
+          <Property Name="Permission" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -299,6 +306,30 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__RolePermi__Forum__628FA481">
+          <End Role="ForumSection" Type="Self.ForumSection" Multiplicity="0..1" />
+          <End Role="RolePermissions" Type="Self.RolePermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ForumSection">
+              <PropertyRef Name="ForumSectionId" />
+            </Principal>
+            <Dependent Role="RolePermissions">
+              <PropertyRef Name="ForumSectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RolePermi__RoleI__619B8048">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="RolePermissions" Type="Self.RolePermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="RolePermissions">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__SubRealm__RealmI__20C1E124">
           <End Role="Realms" Type="Self.Realms" Multiplicity="1" />
           <End Role="SubRealms" Type="Self.SubRealms" Multiplicity="*" />
@@ -331,17 +362,13 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
           <EntitySet Name="ForumSection" EntityType="Self.ForumSection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ForumTopic" EntityType="Self.ForumTopic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberLogins" EntityType="Self.MemberLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MemberRoles" EntityType="Self.MemberRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Realms" EntityType="Self.Realms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RolePermissions" EntityType="Self.RolePermissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubRealms" EntityType="Self.SubRealms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Units" EntityType="Self.Units" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MemberRoles" EntityType="Self.MemberRoles" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [MemberRoles].[MemberLoginId] AS [MemberLoginId], 
-    [MemberRoles].[RoleId] AS [RoleId]
-    FROM [dbo].[MemberRoles] AS [MemberRoles]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK__Attendanc__Event__1BFD2C07" Association="Self.FK__Attendanc__Event__1BFD2C07">
             <End Role="Events" EntitySet="Events" />
             <End Role="Attendances" EntitySet="Attendances" />
@@ -398,6 +425,14 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
             <End Role="Roles" EntitySet="Roles" />
             <End Role="MemberRoles" EntitySet="MemberRoles" />
           </AssociationSet>
+          <AssociationSet Name="FK__RolePermi__Forum__628FA481" Association="Self.FK__RolePermi__Forum__628FA481">
+            <End Role="ForumSection" EntitySet="ForumSection" />
+            <End Role="RolePermissions" EntitySet="RolePermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RolePermi__RoleI__619B8048" Association="Self.FK__RolePermi__RoleI__619B8048">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RolePermissions" EntitySet="RolePermissions" />
+          </AssociationSet>
           <AssociationSet Name="FK__SubRealm__RealmI__20C1E124" Association="Self.FK__SubRealm__RealmI__20C1E124">
             <End Role="Realms" EntitySet="Realms" />
             <End Role="SubRealms" EntitySet="SubRealms" />
@@ -418,7 +453,6 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
           <EntitySet Name="MemberLogins" EntityType="FuglBrennaModel.MemberLogin" />
           <EntitySet Name="Members" EntityType="FuglBrennaModel.Member" />
           <EntitySet Name="Realms" EntityType="FuglBrennaModel.Realm" />
-          <EntitySet Name="Roles" EntityType="FuglBrennaModel.Role" />
           <EntitySet Name="SubRealms" EntityType="FuglBrennaModel.SubRealm" />
           <EntitySet Name="Units" EntityType="FuglBrennaModel.Unit" />
           <AssociationSet Name="FK__Attendanc__Event__1BFD2C07" Association="FuglBrennaModel.FK__Attendanc__Event__1BFD2C07">
@@ -457,10 +491,6 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
             <End Role="Realm" EntitySet="Realms" />
             <End Role="SubRealm" EntitySet="SubRealms" />
           </AssociationSet>
-          <AssociationSet Name="MemberRoles" Association="FuglBrennaModel.MemberRoles">
-            <End Role="MemberLogin" EntitySet="MemberLogins" />
-            <End Role="Role" EntitySet="Roles" />
-          </AssociationSet>
           <EntitySet Name="ForumPosts" EntityType="FuglBrennaModel.ForumPost" />
           <EntitySet Name="ForumSections" EntityType="FuglBrennaModel.ForumSection" />
           <EntitySet Name="ForumTopics" EntityType="FuglBrennaModel.ForumTopic" />
@@ -483,6 +513,25 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
           <AssociationSet Name="FK__ForumTopi__Creat__571DF1D5" Association="FuglBrennaModel.FK__ForumTopi__Creat__571DF1D5">
             <End Role="Member" EntitySet="Members" />
             <End Role="ForumTopic" EntitySet="ForumTopics" />
+          </AssociationSet>
+          <EntitySet Name="RolePermissions" EntityType="FuglBrennaModel.RolePermission" />
+          <AssociationSet Name="FK__RolePermi__Forum__628FA481" Association="FuglBrennaModel.FK__RolePermi__Forum__628FA481">
+            <End Role="ForumSection" EntitySet="ForumSections" />
+            <End Role="RolePermission" EntitySet="RolePermissions" />
+          </AssociationSet>
+          <EntitySet Name="MemberRoles" EntityType="FuglBrennaModel.MemberRole" />
+          <EntitySet Name="Roles" EntityType="FuglBrennaModel.Role" />
+          <AssociationSet Name="FK__MemberRol__Membe__4F7CD00D" Association="FuglBrennaModel.FK__MemberRol__Membe__4F7CD00D">
+            <End Role="MemberLogin" EntitySet="MemberLogins" />
+            <End Role="MemberRole" EntitySet="MemberRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MemberRol__RoleI__5070F446" Association="FuglBrennaModel.FK__MemberRol__RoleI__5070F446">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="MemberRole" EntitySet="MemberRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RolePermi__RoleI__619B8048" Association="FuglBrennaModel.FK__RolePermi__RoleI__619B8048">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="RolePermission" EntitySet="RolePermissions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Attendance">
@@ -523,9 +572,9 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
           <Property Name="MemberId" Type="Int32" />
           <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Member" Relationship="FuglBrennaModel.FK__MemberLog__Membe__4BAC3F29" FromRole="MemberLogin" ToRole="Member" />
-          <NavigationProperty Name="Roles" Relationship="FuglBrennaModel.MemberRoles" FromRole="MemberLogin" ToRole="Role" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="JoinedOn" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="MemberRoles" Relationship="FuglBrennaModel.FK__MemberRol__Membe__4F7CD00D" FromRole="MemberLogin" ToRole="MemberRole" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -557,14 +606,6 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
           <Property Name="RealmState" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
           <Property Name="RealmCity" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="SubRealms" Relationship="FuglBrennaModel.FK__SubRealm__RealmI__20C1E124" FromRole="Realm" ToRole="SubRealm" />
-        </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="MemberLogins" Relationship="FuglBrennaModel.MemberRoles" FromRole="Role" ToRole="MemberLogin" />
         </EntityType>
         <EntityType Name="SubRealm">
           <Key>
@@ -702,10 +743,6 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="MemberRoles">
-          <End Type="FuglBrennaModel.MemberLogin" Role="MemberLogin" Multiplicity="*" />
-          <End Type="FuglBrennaModel.Role" Role="Role" Multiplicity="*" />
-        </Association>
         <EntityType Name="ForumPost">
           <Key>
             <PropertyRef Name="ForumPostId" />
@@ -728,6 +765,7 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
           <Property Name="CreatedMemberId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Member" Relationship="FuglBrennaModel.FK__ForumSect__Creat__534D60F1" FromRole="ForumSection" ToRole="Member" />
           <NavigationProperty Name="ForumTopics" Relationship="FuglBrennaModel.FK__ForumTopi__Forum__5629CD9C" FromRole="ForumSection" ToRole="ForumTopic" />
+          <NavigationProperty Name="RolePermissions" Relationship="FuglBrennaModel.FK__RolePermi__Forum__628FA481" FromRole="ForumSection" ToRole="RolePermission" />
         </EntityType>
         <EntityType Name="ForumTopic">
           <Key>
@@ -803,6 +841,84 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="RolePermission">
+          <Key>
+            <PropertyRef Name="RolePermissionId" />
+          </Key>
+          <Property Name="RolePermissionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="ForumSectionId" Type="Int32" />
+          <Property Name="Permission" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ForumSection" Relationship="FuglBrennaModel.FK__RolePermi__Forum__628FA481" FromRole="RolePermission" ToRole="ForumSection" />
+          <NavigationProperty Name="Role" Relationship="FuglBrennaModel.FK__RolePermi__RoleI__619B8048" FromRole="RolePermission" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK__RolePermi__Forum__628FA481">
+          <End Type="FuglBrennaModel.ForumSection" Role="ForumSection" Multiplicity="0..1" />
+          <End Type="FuglBrennaModel.RolePermission" Role="RolePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ForumSection">
+              <PropertyRef Name="ForumSectionId" />
+            </Principal>
+            <Dependent Role="RolePermission">
+              <PropertyRef Name="ForumSectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MemberRole">
+          <Key>
+            <PropertyRef Name="MemberRoleId" />
+          </Key>
+          <Property Name="MemberLoginId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="MemberRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="MemberLogin" Relationship="FuglBrennaModel.FK__MemberRol__Membe__4F7CD00D" FromRole="MemberRole" ToRole="MemberLogin" />
+          <NavigationProperty Name="Role" Relationship="FuglBrennaModel.FK__MemberRol__RoleI__5070F446" FromRole="MemberRole" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MemberRoles" Relationship="FuglBrennaModel.FK__MemberRol__RoleI__5070F446" FromRole="Role" ToRole="MemberRole" />
+          <NavigationProperty Name="RolePermissions" Relationship="FuglBrennaModel.FK__RolePermi__RoleI__619B8048" FromRole="Role" ToRole="RolePermission" />
+        </EntityType>
+        <Association Name="FK__MemberRol__Membe__4F7CD00D">
+          <End Type="FuglBrennaModel.MemberLogin" Role="MemberLogin" Multiplicity="1" />
+          <End Type="FuglBrennaModel.MemberRole" Role="MemberRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MemberLogin">
+              <PropertyRef Name="MemberLoginId" />
+            </Principal>
+            <Dependent Role="MemberRole">
+              <PropertyRef Name="MemberLoginId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MemberRol__RoleI__5070F446">
+          <End Type="FuglBrennaModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="FuglBrennaModel.MemberRole" Role="MemberRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="MemberRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RolePermi__RoleI__619B8048">
+          <End Type="FuglBrennaModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="FuglBrennaModel.RolePermission" Role="RolePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="RolePermission">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -871,14 +987,6 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="FuglBrennaModel.Role">
-              <MappingFragment StoreEntitySet="Roles">
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SubRealms">
             <EntityTypeMapping TypeName="FuglBrennaModel.SubRealm">
               <MappingFragment StoreEntitySet="SubRealms">
@@ -904,14 +1012,6 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="MemberRoles" TypeName="FuglBrennaModel.MemberRoles" StoreEntitySet="MemberRoles">
-            <EndProperty Name="Role">
-              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-            </EndProperty>
-            <EndProperty Name="MemberLogin">
-              <ScalarProperty Name="MemberLoginId" ColumnName="MemberLoginId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="ForumPosts">
             <EntityTypeMapping TypeName="FuglBrennaModel.ForumPost">
               <MappingFragment StoreEntitySet="ForumPost">
@@ -942,6 +1042,33 @@ warning 6002: The table/view 'FuglBrenna.dbo.MemberRoles' does not have a primar
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ForumSectionId" ColumnName="ForumSectionId" />
                 <ScalarProperty Name="ForumTopicId" ColumnName="ForumTopicId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolePermissions">
+            <EntityTypeMapping TypeName="FuglBrennaModel.RolePermission">
+              <MappingFragment StoreEntitySet="RolePermissions">
+                <ScalarProperty Name="Permission" ColumnName="Permission" />
+                <ScalarProperty Name="ForumSectionId" ColumnName="ForumSectionId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RolePermissionId" ColumnName="RolePermissionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MemberRoles">
+            <EntityTypeMapping TypeName="FuglBrennaModel.MemberRole">
+              <MappingFragment StoreEntitySet="MemberRoles">
+                <ScalarProperty Name="MemberRoleId" ColumnName="MemberRoleId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="MemberLoginId" ColumnName="MemberLoginId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="FuglBrennaModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

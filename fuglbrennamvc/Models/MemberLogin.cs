@@ -17,7 +17,7 @@ namespace FuglBrennaMvc.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MemberLogin()
         {
-            this.Roles = new HashSet<Role>();
+            this.MemberRoles = new HashSet<MemberRole>();
         }
     
         public int MemberLoginId { get; set; }
@@ -28,6 +28,6 @@ namespace FuglBrennaMvc.Models
     
         public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<MemberRole> MemberRoles { get; set; }
     }
 }

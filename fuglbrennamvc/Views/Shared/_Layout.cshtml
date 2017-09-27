@@ -8,6 +8,8 @@
     @Scripts.Render("~/bundles/modernizr")
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript" src="/Scripts/jQuery.flashMessage.js"></script>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="apple-touch-icon" sizes="57x57" href="~/Content/images/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="~/Content/images/apple-icon-60x60.png">
@@ -30,7 +32,6 @@
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-
             <img class="fblogo" src="~/Content/images/FBLogo.svg">
             <div class="navbar-header" >
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -53,7 +54,19 @@
 
         </div>
     </div>
-    <div class="container body-content" style="padding-top: 60px;">
+    <div class="container body-content">
+
+        <div id="flash-messages" class="alert" style="display:none;">
+            <a class="close" href="#">&times;</a>
+            <p></p>
+        </div>
+
+        <script type="text/javascript">
+            $(function () {
+                $("#flash-messages").flashMessage();
+            });
+        </script>
+
         <div background-color="white">
             @RenderBody()
             <hr />

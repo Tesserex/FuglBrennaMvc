@@ -290,10 +290,13 @@
     <Compile Include="App_Start\MemberUserStore.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Forum\Controllers\AdminController.cs" />
     <Compile Include="Areas\Forum\Controllers\ForumController.cs" />
     <Compile Include="Areas\Forum\Controllers\TopicController.cs" />
     <Compile Include="Areas\Forum\ForumAreaRegistration.cs" />
     <Compile Include="Areas\Forum\Helpers\AuthorizeMemberAttribute.cs" />
+    <Compile Include="Areas\Forum\Helpers\FlashMessageExtensions.cs" />
+    <Compile Include="Areas\Forum\Models\Permissions.cs" />
     <Compile Include="Areas\Forum\ViewModels\Topic\ForumTopicPageViewModel.cs" />
     <Compile Include="Areas\Forum\ViewModels\Topic\ForumPostViewModel.cs" />
     <Compile Include="Areas\Forum\Services\ForumService.cs" />
@@ -359,10 +362,16 @@
       <DependentUpon>FuglBrennaContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MemberLogin.Partial.cs" />
+    <Compile Include="Models\MemberRole.cs">
+      <DependentUpon>FuglBrennaContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Realm.cs">
       <DependentUpon>FuglBrennaContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Role.cs">
+      <DependentUpon>FuglBrennaContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RolePermission.cs">
       <DependentUpon>FuglBrennaContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SubRealm.cs">
@@ -383,6 +392,7 @@
     <Content Include="Areas\Forum\Content\css\forum.min.css">
       <DependentUpon>forum.css</DependentUpon>
     </Content>
+    <Content Include="Scripts\jQuery.flashMessage.js" />
     <Content Include="Areas\Forum\Content\js\forum.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -457,6 +467,7 @@
     <Content Include="Areas\Forum\Views\Home\Section.cshtml" />
     <Content Include="Areas\Forum\Views\Topic\Create.cshtml" />
     <Content Include="Areas\Forum\Views\Topic\Index.cshtml" />
+    <Content Include="Areas\Forum\Views\Admin\Index.cshtml" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
@@ -519,8 +530,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Forum\Models\" />
-    <Folder Include="Areas\Forum\Views\Forum\" />
     <Folder Include="Areas\Forum\Views\Shared\" />
     <Folder Include="Views\Section\" />
   </ItemGroup>
