@@ -31,7 +31,9 @@
 
                     <div class="forum-last-post">
                         <div class="last-post__name">@s.LastPostMember</div>
-                        <div class="last-post__date">@(s.LastPostDate.HasValue ? s.LastPostDate.Value.ToString("MMM dd, yyyy hh:mm:sstt") : "")</div>
+                        <div class="last-post__date">
+                            <span class="date-ago">@(s.LastPostDate.HasValue ? s.LastPostDate.Value.ToString() : "")</span>
+                        </div>
                     </div>
                 </div>
             </div>

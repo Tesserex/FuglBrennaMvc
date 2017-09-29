@@ -88,7 +88,8 @@ p {
   .forum-posts__post {
     border-bottom: 1px solid #ccc;
     background: rgba(240, 240, 240, 0.75);
-    color: #000; }
+    color: #000;
+    flex-wrap: nowrap; }
     .forum-posts__post:nth-child(even) {
       background: rgba(215, 215, 215, 0.75); }
     .forum-posts__post .post__member {
@@ -116,7 +117,7 @@ p {
         padding: 15px 0 5px;
         font-size: 12px; }
     .forum-posts__post .post__data {
-      width: 15%;
+      width: 120px;
       text-align: right;
       font-size: 12px;
       line-height: 12px;
@@ -149,12 +150,38 @@ p {
 @media (max-width: 767px) {
   .section__main {
     width: 100%; }
+  .section .datum__label {
+    padding: 0 5px 0 15px;
+    width: 80px;
+    text-align: right; }
+  .forum-topics .topic__main {
+    width: 100%; }
+  .forum-topics .topic__posts {
+    text-align: left;
+    padding: 5px 15px; }
   .forum-data__datum {
     float: left;
     width: auto; }
-  .datum__label {
-    padding: 0 5px 0 15px;
-    width: 80px; }
   .datum__value {
-    padding-right: 20px; } }
+    padding-right: 20px; }
+  .forum-last-post {
+    padding: 5px 15px 5px 0;
+    text-align: right; }
+    .forum-last-post .last-post__name {
+      display: inline-block;
+      padding-right: 10px; }
+    .forum-last-post .last-post__date {
+      display: inline-block; }
+  .forum-posts__post {
+    flex-direction: column;
+    position: relative; }
+    .forum-posts__post .post__member {
+      width: auto; }
+      .forum-posts__post .post__member .member-joined, .forum-posts__post .post__member .member-posts {
+        display: none; }
+    .forum-posts__post .post__data {
+      position: absolute;
+      top: 0;
+      right: 0;
+      align-self: flex-end; } }
 
