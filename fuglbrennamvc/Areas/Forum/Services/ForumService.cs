@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using FuglBrennaMvc.Areas.Forum.ViewModels.Topic;
+using FuglBrennaMvc.Areas.Forum.ViewModels.Admin;
 
 namespace FuglBrennaMvc.Areas.Forum.Services
 {
@@ -200,6 +201,21 @@ namespace FuglBrennaMvc.Areas.Forum.Services
             this.context.ForumSections.Add(section);
 
             this.context.SaveChanges();
+        }
+
+        public DashboardViewModel GetAdminDashboard()
+        {
+            var roles = this.context.Roles
+                .Select(r => new RoleSummaryViewModel() {
+                    Name = r.RoleName,
+                    Members = r.MemberRoles.Count,
+                    Permissions = r.RolePermissions.Count
+                })
+                .ToList();
+
+            return new DashboardViewModel() {
+                Roles = roles
+            };
         }
 
         private void UpdateMemberPostCount()

@@ -1,6 +1,8 @@
 ﻿using FuglBrennaMvc.Areas.Forum.Models;
 using FuglBrennaMvc.Models;
+using FuglBrennaMvc.Services;
 using Microsoft.AspNet.Identity;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +17,13 @@ namespace FuglBrennaMvc.Areas.Forum.Helpers
         public string Message { get; set; }
         public Permissions[] Permissions { get; set; }
 
+        [Inject]
+        public MemberAuthorizationService AuthService { get; set; }
+
         public AuthorizeMemberAttribute()
         {
             this.Message = "Please complete your profile.";
+            
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
@@ -36,34 +42,14 @@ namespace FuglBrennaMvc.Areas.Forum.Helpers
                 return false;
             }
 
-            return ValidatePermissions(userId);
-        }
+            var hasPermission = this.AuthService.ValidatePermissions(userId, this.Permissions);
 
-        private bool ValidatePermissions(int userId)
-        {
-            if (this.Permissions == null)
+            if (!hasPermission)
             {
-                return true;
+                httpContext.Items["forumAuthorizationFailure"] = true;
             }
 
-            using (var db = new FuglBrennaEntities())
-            {
-                var permissions = db.MemberRoles
-                    .Where(m => m.MemberLoginId == userId)
-                    .SelectMany(m => m.Role.RolePermissions)
-                    .Select(p => p.Permission)
-                    .Distinct()
-                    .ToList();
-
-                var hasPermission = this.Permissions.Cast<int>().Intersect(permissions).Any();
-
-                if (!hasPermission)
-                {
-                    HttpContext.Current.Items["forumAuthorizationFailure"] = true;
-                }
-
-                return hasPermission;
-            }
+            return hasPermission;
         }
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)

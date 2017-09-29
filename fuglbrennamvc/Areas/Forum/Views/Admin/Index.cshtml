@@ -1,7 +1,32 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿@model FuglBrennaMvc.Areas.Forum.ViewModels.Admin.DashboardViewModel
 
-<h2>Index</h2>
+<h2>Administration</h2>
 
+<div class="admin-section">
+    <h3>Roles</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Role</th>
+                <th>Users</th>
+                <th>Permissions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model.Roles)
+            {
+                <tr>
+                    <td>@role.Name</td>
+                    <td>@role.Members</td>
+                    <td>@role.Permissions</td>
+                </tr>
+            }
+            <tr>
+                <td><a>Add Role</a></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

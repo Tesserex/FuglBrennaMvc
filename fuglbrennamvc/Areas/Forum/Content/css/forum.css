@@ -147,6 +147,24 @@ p {
 .date-ago {
   visibility: hidden; }
 
+.admin-section {
+  font-size: 16px;
+  padding: 20px 0;
+  background: rgba(220, 220, 220, 0); }
+  .admin-section h3 {
+    margin: 0 0 10px;
+    font-size: 24px; }
+  .admin-section table {
+    width: 100%; }
+    .admin-section table tr th, .admin-section table tr td {
+      padding: 5px 15px; }
+    .admin-section table tr th {
+      background: #a6c4d4; }
+    .admin-section table tr td {
+      background: rgba(240, 240, 240, 0.75); }
+    .admin-section table tr:nth-child(even) td {
+      background: rgba(215, 215, 215, 0.75); }
+
 @media (max-width: 767px) {
   .section__main {
     width: 100%; }

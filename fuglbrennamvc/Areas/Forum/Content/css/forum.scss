@@ -9,6 +9,9 @@ $bg-row-alt: darken($bg-row, 10%);
 $bg-post: rgba(lighten($fb-blue, 20%), 0.75);
 $divider-color: #ccc;
 
+$admin-section: rgba(220, 220, 220, 0);
+$admin-th: lighten($fb-blue, 20%);
+
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
@@ -220,6 +223,41 @@ p {
     visibility: hidden;
 }
 
+.admin-section {
+    font-size: 16px;
+    padding: 20px 0;
+    background: $admin-section;
+
+    h3 {
+        margin: 0 0 10px;
+        font-size: 24px;
+    }
+
+    table {
+        width: 100%;
+
+        tr {
+            th, td {
+                padding: 5px 15px;
+            }
+
+            th {
+                background: $admin-th;
+            }
+
+            td {
+                background: $bg-row;
+            }
+
+            &:nth-child(even) {
+                td {
+                   background: $bg-row-alt;
+                }
+            }
+        }
+    }
+}
+
 @media (max-width: 767px) {
     .section {
         &__main {
@@ -280,8 +318,6 @@ p {
                 display: none;
             }
         }
-
-        
 
         .post__data {
             position: absolute;

@@ -14,7 +14,9 @@ namespace FuglBrennaMvc.Areas.Forum.Controllers
         // GET: Forum/Admin
         public ActionResult Index()
         {
-            return View();
+            var vm = this.ForumService.GetAdminDashboard();
+
+            return View(vm);
         }
     }
 }
